@@ -1,1 +1,2 @@
-console.log(' Backend service initialized successfully!');
+import './config/env.js';
+import { env } from './config/env.js';
