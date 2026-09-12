@@ -11,6 +11,12 @@ const envSchema = z.object({
   LOG_LEVEL: z
     .enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal', 'silent'])
     .default('debug'),
+  PG_USER: z.string().default('postgres'),
+  PG_HOST: z.string().default('localhost'),
+  PG_PORT: z.coerce.number().default(5432),
+  PG_DATABASE: z.string().min(1),
+  PG_PASSWORD: z.string().min(1),
+  PG_MAX_POOL: z.coerce.number().default(10),
 });
 
 export const env = envSchema.parse(process.env);
