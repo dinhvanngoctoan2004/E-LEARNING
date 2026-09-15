@@ -10,6 +10,7 @@
     "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js"
   },
   "dependencies": {
+    "@repo/contracts": "workspace:*",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",

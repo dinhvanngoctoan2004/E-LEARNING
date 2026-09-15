@@ -1,0 +1,28 @@
+import type { RegisterSchema } from '@repo/contracts';
+import type { IUser } from './user.model.js';
+import { AppError } from '../../utils/AppError.utils.js';
+import pool from '../../config/postgres.js';
+
+export class UserRepository {
+  async createUser(input: RegisterSchema): Promise<IUser> {
+    const query = `INSERT INTO users (email,password,name,role)
+VALUES ($1,$2,$3,$4)
+RETURNING *;`;
+    try {
+      const result = await pool.query<IUser>(query, [
+        input.email,
+        input.password,
+        input.name,
+        input.role || 'student',
+      ]);
+      return result.rows[0]!;
+    } catch (err) {
+      if (err instanceof Error && 'code' in err && err.code === '23505') {
+        throw new AppError(409, 'CONFLICT', 'Account already exists.');
+      }
+      throw err;
+    }
+  }
+}
+
+export const userRepository = new UserRepository();

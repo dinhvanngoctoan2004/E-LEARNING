@@ -1,6 +1,7 @@
 import { Pool } from 'pg';
 import { env } from './env.js';
 import { logger } from './logger.js';
+import { CREATE_USERS_TABLE_SQL } from '../modules/auth/user.model.js';
 
 const pool = new Pool({
   user: env.PG_USER,
@@ -20,6 +21,7 @@ pool.on('error', (err) => {
 export const connectPostgres = async (): Promise<void> => {
   try {
     await pool.query('SELECT 1');
+    await pool.query(CREATE_USERS_TABLE_SQL);
     logger.info('PostSQL Connected successfully');
   } catch (err) {
     logger.error({ err }, 'PostSQL connection error');
