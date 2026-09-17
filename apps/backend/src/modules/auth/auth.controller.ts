@@ -3,11 +3,11 @@ import { authServices, type AuthService } from './authe.service.js';
 import { env } from '../../config/env.js';
 
 class AuthController {
-  constructor(private autheServ: AuthService = authServices) {}
+  constructor(private authSer: AuthService = authServices) {}
   async register(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const user = req.body;
-      const result = await this.autheServ.register(user);
+      const result = await this.authSer.register(user);
       res
         .status(201)
         .cookie('access_token', result.accessToken, {

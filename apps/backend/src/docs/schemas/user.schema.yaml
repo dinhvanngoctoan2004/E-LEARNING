@@ -1,0 +1,35 @@
+UserResponse:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+      example: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
+    email:
+      type: string
+      format: email
+      example: '123@gmail.com'
+    phone_number:
+      type: string
+      example: '0123456789'
+    name:
+      type: string
+      example: 'toan'
+    year_of_birth:
+      type: number
+      example: 2004
+    role:
+      type: string
+      enum: [student, teacher, admin]
+      example: 'student'
+    job:
+      type: string
+      example: 'student'
+    created_at:
+      type: string
+      format: date-time
+      example: '2026-09-17T12:00:00Z'
+    updated_at:
+      type: string
+      format: date-time
+      example: '2026-09-17T12:00:00Z'

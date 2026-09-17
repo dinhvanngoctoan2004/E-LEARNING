@@ -11,9 +11,12 @@ RETURNING *;`;
     try {
       const result = await pool.query<IUser>(query, [
         input.email,
+        input.phone_number,
         input.password,
+        input.year_of_birth,
         input.name,
         input.role || 'student',
+        input.job || 'student',
       ]);
       return result.rows[0]!;
     } catch (err) {

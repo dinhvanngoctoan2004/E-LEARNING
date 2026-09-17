@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  title: E-learning Backend API
+  version: 1.0.0
+  description: REST API documentation for the E-learning project
+servers:
+  - url: http://localhost:3000
+    description: Development Server (Local)
+components:
+  securitySchemes:
+    BearerAuthe:
+      type: http
+      schema: bearer
+      bearerFormat: JWT
+      description: Enter the Access Token here (e.g., Bearer <token>)
+
+  schemas:
+    UserResponse:
+      $ref: './schemas/user.schema.yaml#/UserResponse'
+
+paths:
+  /api/auth/register:
+    $ref: './modules/auth.yaml#/register'

@@ -1,0 +1,65 @@
+register:
+  post:
+    summary: Create an account
+    tags:
+      - auth
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - email
+              - phone_number
+              - password
+              - year_of_birth
+              - name
+              - role
+              - job
+            properties:
+              email:
+                type: string
+                format: email
+                example: '123@gmail.com'
+              phone_number:
+                type: string
+                example: '0123456789'
+                minLength: 10
+              password:
+                type: string
+                format: password
+                minLength: 8
+                example: 'Password123!'
+              year_of_birth:
+                type: number
+                example: 2004
+              name:
+                type: string
+                example: 'toàn'
+              role:
+                type: string
+                enum: ['student', 'teacher', 'admin']
+                example: 'student'
+              job:
+                type: string
+                example: 'student'
+    responses:
+      '201':
+        description: Account created successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: success
+                data:
+                  $ref: '#/components/schemas/UserResponse'
+      '400':
+        description: Input validation error
+      '409':
+        description: Account already exists
+      '500':
+        description: Internal server error

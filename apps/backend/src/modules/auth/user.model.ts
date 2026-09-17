@@ -13,9 +13,12 @@ export interface IUser {
 
 export interface ICreateUserDTO {
   email: string;
+  phone_number: string;
   password: string;
+  year_of_birth: number;
   name: string;
   role: 'student' | 'teacher' | 'admin';
+  job: string;
 }
 
 export const CREATE_USERS_TABLE_SQL = `
