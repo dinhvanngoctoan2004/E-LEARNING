@@ -7,6 +7,7 @@ import { requestId } from './middlewares/requestId.js';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import authRouter from './modules/auth/authe.routes.js';
 
 ////// setting //////
 
@@ -29,6 +30,8 @@ app.use(
 );
 
 ///// endpoint /////
+
+app.use('/api/auth', authRouter);
 
 app.get('/health', async (req: Request, res: Response) => {
   res.status(200).json({

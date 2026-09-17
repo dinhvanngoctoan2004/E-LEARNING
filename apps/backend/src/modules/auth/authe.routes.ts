@@ -10,3 +10,5 @@ const router: Router = Router();
 router.post('/register', authLimiter, validate(registerSchema), (req, res, next) => {
   authController.register(req, res, next);
 });
+
+export default router;

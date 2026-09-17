@@ -1,20 +1,28 @@
 import type { Request, Response, NextFunction } from 'express';
-import { autheServices, type AuthService } from './authe.service.js';
+import { authServices, type AuthService } from './authe.service.js';
 import { env } from '../../config/env.js';
 
 class AuthController {
-  constructor(private autheServ: AuthService = autheServices) {}
+  constructor(private autheServ: AuthService = authServices) {}
   async register(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const user = req.body;
       const result = await this.autheServ.register(user);
       res
         .status(201)
-        .cookie('access_token', result.token, {
+        .cookie('access_token', result.accessToken, {
           httpOnly: true,
           secure: env.NODE_ENV === 'production',
           sameSite: 'lax',
-          maxAge: 24 * 60 * 60 * 1000,
+          maxAge: 15 * 60 * 1000,
+          path: '/',
+        })
+        .cookie('reference_token', result.referenceToken, {
+          httpOnly: true,
+          secure: env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+          path: '/api/auth/refresh',
         })
         .json({
           status: 'success',

@@ -1,14 +1,24 @@
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env.js';
 
-export interface TokenPayload {
+export interface AccessTokenPayload {
   userId: string;
   role: string;
 }
+export interface ReferencePayload {
+  userId: string;
+}
 
-export const generateToken = (userData: TokenPayload) => {
-  const signature = jwt.sign(userData, env.JWT_KEY, {
-    expiresIn: env.JWT_EXPIRES_IN as any,
+export const generateAccessToken = (userData: AccessTokenPayload) => {
+  const signature = jwt.sign(userData, env.ACCESS_TOKEN_SECRET, {
+    expiresIn: env.ACCESS_TOKEN_EXPIRES_IN as any,
+  });
+  return signature;
+};
+
+export const generateReferenceToken = (userData: ReferencePayload) => {
+  const signature = jwt.sign(userData, env.REFRESH_TOKEN_SECRET, {
+    expiresIn: env.REFRESH_TOKEN_EXPIRES_IN as any,
   });
   return signature;
 };

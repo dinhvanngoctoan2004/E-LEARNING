@@ -6,8 +6,14 @@ const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().default(3000),
   MONGO_URI: z.string().min(1, 'MONGO_URI không được để trống!'),
-  JWT_KEY: z.string().min(32, 'JWT_KEY bắt buộc phải có tối thiểu 32 ký tự để bảo mật!'),
-  JWT_EXPIRES_IN: z.string().default('1d'),
+  ACCESS_TOKEN_SECRET: z
+    .string()
+    .min(60, 'ACCESS_TOKEN_SECRET must be at least 60 characters long for security purposes!'),
+  REFRESH_TOKEN_SECRET: z
+    .string()
+    .min(100, 'REFRESH_TOKEN_SECRET must be at least 100 characters long for security purposes!'),
+  ACCESS_TOKEN_EXPIRES_IN: z.string().default('15m'),
+  REFRESH_TOKEN_EXPIRES_IN: z.string().default('7d'),
   LOG_LEVEL: z
     .enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal', 'silent'])
     .default('debug'),

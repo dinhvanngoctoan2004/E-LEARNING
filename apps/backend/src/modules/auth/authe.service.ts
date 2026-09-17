@@ -1,5 +1,5 @@
 import type { RegisterSchema } from '@repo/contracts';
-import { generateToken } from '../../utils/jwt.unit.js';
+import { generateAccessToken, generateReferenceToken } from '../../utils/jwt.unit.js';
 import { userRepository, UserRepository } from './user.repository.js';
 import bcrypt from 'bcryptjs';
 
@@ -10,8 +10,14 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(input.password, 10);
     const result = await this.userRepo.createUser({ ...input, password: hashedPassword });
     const { password: _password, ...safeUser } = result;
-    const token = generateToken({ userId: safeUser.id.toString(), role: safeUser.role });
-    return { safeUser, token };
+    const accessToken = generateAccessToken({
+      userId: safeUser.id.toString(),
+      role: safeUser.role,
+    });
+    const referenceToken = generateReferenceToken({
+      userId: safeUser.id.toString(),
+    });
+    return { safeUser, accessToken, referenceToken };
   }
 }
-export const autheServices = new AuthService();
+export const authServices = new AuthService();
