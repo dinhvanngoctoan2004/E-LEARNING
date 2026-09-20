@@ -7,7 +7,11 @@ import { requestId } from './middlewares/requestId.js';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import authRouter from './modules/auth/authe.routes.js';
+import authRouter from './modules/auth/auth.routes.js';
+import * as swaggerParser from '@readme/openapi-parser';
+import path from 'node:path';
+import swaggerUI from 'swagger-ui-express';
+import { env } from './config/env.js';
 
 ////// setting //////
 
@@ -28,6 +32,12 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization', 'x-request-id'],
   }),
 );
+
+if (env.NODE_ENV !== 'production') {
+  const swaggerPath = path.join(process.cwd(), 'src/docs/swagger.yaml');
+  const swaggerDocument = await swaggerParser.bundle(swaggerPath);
+  app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+}
 
 ///// endpoint /////
 

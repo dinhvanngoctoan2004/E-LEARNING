@@ -8,7 +8,7 @@ servers:
     description: Development Server (Local)
 components:
   securitySchemes:
-    BearerAuthe:
+    BearerAuth:
       type: http
       schema: bearer
       bearerFormat: JWT

@@ -5,8 +5,8 @@ import pool from '../../config/postgres.js';
 
 export class UserRepository {
   async createUser(input: RegisterSchema): Promise<IUser> {
-    const query = `INSERT INTO users (email,password,name,role)
-VALUES ($1,$2,$3,$4)
+    const query = `INSERT INTO users (email,phone_number,password,year_of_birth,name,role,job)
+VALUES ($1,$2,$3,$4,$5,$6,$7)
 RETURNING *;`;
     try {
       const result = await pool.query<IUser>(query, [

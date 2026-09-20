@@ -56,7 +56,7 @@ register:
                   type: string
                   example: success
                 data:
-                  $ref: '#/components/schemas/UserResponse'
+                  $ref: '../schemas/user.schema.yaml#/UserResponse'
       '400':
         description: Input validation error
       '409':
