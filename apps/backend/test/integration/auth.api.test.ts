@@ -79,6 +79,7 @@ describe('Auth API - Integration Test', () => {
       expect(result.status).toBe(201);
       expect(result.body.data.safeUser.email).toBe('test123@gmail.com');
       expect(result.body.data.safeUser.phone_number).toBe('0123456789');
+      expect(result.body.data.safeUser.name).toBe('toàn');
     });
 
     it('Validation - email,phone_number, phone_number', async () => {

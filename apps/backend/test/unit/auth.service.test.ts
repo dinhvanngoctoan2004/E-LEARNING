@@ -15,6 +15,7 @@ describe('AuthService', () => {
       createUser: vi.fn(),
     };
     authService = new AuthService(mocUserRepo as unknown as UserRepository);
+    vi.clearAllMocks();
   });
 
   describe('register()', () => {
@@ -29,7 +30,7 @@ describe('AuthService', () => {
         // role: 'student',
         // job: 'student',
       };
-      const fakeDataResporn = {
+      const fakeDataResponse = {
         id: '0123456789',
         email: 'dinhvanngoctoan@gmail.com',
         phone_number: '0123456789',
@@ -39,7 +40,7 @@ describe('AuthService', () => {
         role: 'student',
         job: 'student',
       };
-      mocUserRepo.createUser.mockResolvedValue(fakeDataResporn);
+      mocUserRepo.createUser.mockResolvedValue(fakeDataResponse);
       const result = await authService.register(fakeDataInput);
       expect(result).toHaveProperty('safeUser');
       expect(result.safeUser).not.toHaveProperty('password');
@@ -52,6 +53,33 @@ describe('AuthService', () => {
         name: 'toan',
       });
       expect(result.safeUser).not.toHaveProperty('password');
+    });
+
+    it('Encrypt the password before saving.', async () => {
+      const fakeDataInput: RegisterSchema = {
+        // id: '0123456789',
+        email: 'dinhvanngoctoan@gmail.com',
+        phone_number: '0123456789',
+        password: 'Toan2004@',
+        year_of_birth: 2004,
+        name: 'toan',
+        // role: 'student',
+        // job: 'student',
+      };
+      const fakeDataResponse = {
+        id: '0123456789',
+        email: 'dinhvanngoctoan@gmail.com',
+        phone_number: '0123456789',
+        password: 'Toan2004@',
+        year_of_birth: 2004,
+        name: 'toan',
+        role: 'student',
+        job: 'student',
+      };
+      mocUserRepo.createUser.mockResolvedValue(fakeDataResponse);
+      const _result = await authService.register(fakeDataInput);
+      const sendDb = mocUserRepo.createUser.mock.calls[0][0];
+      expect(sendDb.password).not.toBe('Toan2004@');
     });
   });
 });
